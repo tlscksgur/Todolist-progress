@@ -1,55 +1,7 @@
 const $todolist = document.querySelector(".todo-list")
+const $todoc = document.querySelectorAll('.todo-list li')
 const $newtodo = document.querySelector(".new-todo")
 const $filters = document.querySelector(".filters")
-
-// const n = [1,2,3,4];
-
-// console.log(n.includes()); 
-
-// console.log( n.every( value => value > 0 ) )
-
-// console.log(n.filter( value => value%2 === 0 ))
-// forEach : void
-// map  : array  
-// filter : array
-// find  : undefined, value
-// findIndex : number
-// some :boolean
-// every  : boolean
-// reduce : 하기나름
-// join : string
-// includes : boolean 
-
-
-// function findIndexByValue2(array,findValue){
-//     return array.findIndex( (value) => value === findValue )
-// }
-
-// function findIndexByValue(array,value){
-//     for(let i=0; i<array.length; i++){
-//         if(n[i] === value){
-//             return i
-//         }
-//     }
-//     return -1
-// }
-
-// n.every( value => value > 0 )
-
-// let isEvery = true;
-// for(let i=0; i<n.length; i++){
-//     if( n[i] < 0 ){
-//         isEvery = false
-//         break
-//     } 
-// }
-// console.log(isEvery)
-
-// console.log(
-//     findIndexByValue(n,4),
-//     findIndexByValue2(n,4),
-// )
-
 
 function $todo() {
     if (!$newtodo.value.trim()) {
@@ -153,6 +105,35 @@ function item() {
     countBtn.innerText = countElements.length
 }
 
+function dblclick() {
+    const todochild = document.querySelectorAll('.todo-list li')
+
+    todochild.forEach(toch => {
+        toch.addEventListener('dblclick', ()=>{
+            todochild.forEach(box => box.classList.remove('editing'))
+            toch.classList.add('editing')
+            const input = toch.querySelector('.edit')
+            if(input)input.remove()
+
+            const editInput = document.createElement('input')
+            editInput.classList.add('edit')
+            editInput.type = 'text'
+            editInput.value = toch.querySelector('label').innerText
+
+            toch.appendChild(editInput)
+            editInput.focus()
+
+            editInput.addEventListener('keypress', (e)=>{
+                if (e.key === 'Enter') {
+                    toch.querySelector('label').innerText = editInput.value
+                    toch.classList.remove('editing')
+                    editInput.remove()
+                }
+            })
+        })
+    });
+}
+
 
 
 $newtodo.addEventListener('keypress', (e)=>{
@@ -162,7 +143,10 @@ $newtodo.addEventListener('keypress', (e)=>{
         $Allcheck()
         item()
         checkbtndel()
+        dblclick()
     }
 })
 
 item()
+
+// toch.classList.add('editing')hjgjghhgjhgf
